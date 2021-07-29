@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% load static %}
+    <meta charset="UTF-8">
+    <title>Speedex Courier</title>
+    <style>
+        #outer
+        {
+            width:1000px;
+            height:1200px;
+            margin: 0 auto;
+        }
+        #header
+        {
+            width:1000px;
+            height:150px;
+        }
+        #logo
+        {
+            width:150px;
+            height:150px;
+            background-color:cyan;
+            float:left;
+        }
+        #banner
+        {
+            width:850px;
+            height:150px;
+            background-color:teal;
+            float:right;
+            color:white;
+            text-align:center;
+            font-size:80px;
+            line-height:150px;
+        }
+        #menu
+        {
+            width:1000px;
+            height:50px;
+            background-color:white;
+            margin-top:5px;
+            border:1px solid white;
+        }
+        #menu ul
+        {
+            list-style-type:none;
+        }
+        #menu ul li
+        {
+            display:inline;
+        }
+        #menu ul li a
+        {
+            font-size:25px;
+            padding:20px;
+            text-decoration:none;
+            color:black;
+        }
+        #menu ul li a:hover
+        {
+            color:red;
+        }
+        #slider
+        {
+            width:1000px;
+            height:250px;
+            background-color:grey;
+            margin-top:5px;
+        }
+        #parent
+        {
+            width:1000px;
+            height:600px;
+            margin-top:5px;
+        }
+        #left
+        {
+            width:300px;
+            height:600px;
+            background-color:cyan;
+            float:left;
+        }
+        #main
+        {
+            width:700px;
+            height:600px;
+            background-color:white;
+            float:right;
+        }
+        #footer
+        {
+            width:1000px;
+            height:130px;
+            margin-top:5px;
+        }
+        #lfooter
+        {
+            width:500px;
+            height:130px;
+            background-color:black;
+            float:left;
+            color:white;
+            text-align:center;
+            font-size:30px;
+            line-height:130px;
+        }
+        #rfooter
+        {
+            width:500px;
+            height:130px;
+            background-color:grey;
+            float:right;
+            color:white;
+            text-align:center;
+            font-size:30px;
+            line-height:130px;
+        }
+    </style>
+    <script>
+        var images=["slider1.jpg","slider2.jpg","slider3.jpg","slider4.jpeg"];
+        var i=0;
+        baseUrl="{% static 'images/' %}";
+        function moveslider()
+        {
+            if(i==images.length)
+            {
+                i=0;
+            }
+            document.getElementById("slide").src=baseUrl+images[i];
+            i++;
+            window.setTimeout("moveslider()",2000);
+        }
+    </script>
+</head>
+<body bgcolor="blue" onload="moveslider()">
+    <div id="outer">
+        <div id="header">
+            <div id="logo">
+                <img src="{% static 'images/logo.png' %}" width="150" height="150"/>
+            </div>
+            <div id="banner">
+                Speedex Courier Service
+            </div>
+        </div>
+        <div id="menu">
+            <ul>
+                <li><a href="{% url 'index' %}">Home</a></li>
+                <li><a href="{% url 'about' %}">About Us</a></li>
+                <li><a href="{% url 'login' %}">Login</a></li>
+                <li><a href="{% url 'tracking' %}">Packet Tracking</a></li>
+                <li><a href="{% url 'complain' %}">Complain</a></li>
+                <li><a href="{% url 'enquiry' %}">Enquiry</a></li>
+                <li><a href="{% url 'career' %}">Career</a></li>
+            </ul>
+        </div>
+        <div id="slider">
+            <img id="slide" width="1000" height="250"/>
+        </div>
+        <div id="parent">
+            <div id="left">
+                <marquee direction="up" height="400px" onmouseover="stop()" onmouseout="start()">
+                {% for n in nf %}
+                    <span style="text-align:center;">
+                    <p style="color:blue;font-size:20px;">{{n.notificationtext}}</p>
+                    <p>{{n.posteddate}}</p>
+                    </span>
+                {% endfor %}
+                </marquee>
+            </div>
+            <div id="main">
+                <form action="{% url 'search' %}" method="post">
+                    {% csrf_token %}
+                    <h2 style="color:blue;text-align:center;">
+                        Track your consignment
+                    </h2>
+                    <table border="1" style="width:50%;margin:0 auto;">
+                        <tr>
+                            <td>Enter ref. no.</td>
+                            <td>
+                                <input type="text" name="refno" required/>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>&nbsp;</td>
+                            <td>
+                                <input type="submit" value="Search"/>
+                            </td>
+                        </tr>
+                    </table>
+                </form>
+                <table border="1" style="width:50%;margin:0 auto;">
+                    <tr>
+                        <th>Source</th>
+                        <th>Current Location</th>
+                        <th>Destination</th>
+                        <th>Status</th>
+                    </tr>
+                    {% if con %}
+                        <tr>
+                            <td>{{con.source}}</td>
+                            <td>{{con.currentcity}}</td>
+                            <td>{{con.destination}}</td>
+                            <td>{{con.status}}</td>
+                        </tr>
+                    {% endif %}
+                </table>
+            </div>
+        </div>
+        <div id="footer">
+            <div id="lfooter">
+                Copyright &copy; to Speedex Courier
+            </div>
+            <div id="rfooter">
+                Developed By : Ashutosh Singh
+            </div>
+        </div>
+    </div>
+</body>
+</html>

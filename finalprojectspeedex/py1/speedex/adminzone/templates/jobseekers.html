@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% load static %}
+    <meta charset="UTF-8">
+    <title>Speedex Courier</title>
+    <style>
+        #outer
+        {
+            width:1000px;
+            min-height:950px;
+            margin: 0 auto;
+            height:auto;
+        }
+        #header
+        {
+            width:1000px;
+            height:150px;
+        }
+        #logo
+        {
+            width:150px;
+            height:150px;
+            background-color:cyan;
+            float:left;
+        }
+        #banner
+        {
+            width:850px;
+            height:150px;
+            background-color:teal;
+            float:right;
+            color:white;
+            text-align:center;
+            font-size:80px;
+            line-height:150px;
+        }
+        #menu
+        {
+            width:1000px;
+            height:50px;
+            background-color:white;
+            margin-top:5px;
+            border:1px solid white;
+        }
+        #menu ul
+        {
+            list-style-type:none;
+        }
+        #menu ul li
+        {
+            display:inline;
+        }
+        #menu ul li a
+        {
+            font-size:20px;
+            padding:10px;
+            text-decoration:none;
+            color:black;
+        }
+        #menu ul li a:hover
+        {
+            color:red;
+        }
+        #slider
+        {
+            width:1000px;
+            height:250px;
+            background-color:grey;
+            margin-top:5px;
+        }
+        #parent
+        {
+            width:1000px;
+            min-height:600px;
+            margin-top:5px;
+            height:auto;
+            background-color:white;
+        }
+        #left
+        {
+            width:300px;
+            height:600px;
+            background-color:cyan;
+            float:left;
+        }
+        #main
+        {
+            width:700px;
+            height:600px;
+            background-color:white;
+            float:right;
+        }
+        #footer
+        {
+            width:1000px;
+            height:130px;
+            margin-top:5px;
+        }
+        #lfooter
+        {
+            width:500px;
+            height:130px;
+            background-color:black;
+            float:left;
+            color:white;
+            text-align:center;
+            font-size:30px;
+            line-height:130px;
+        }
+        #rfooter
+        {
+            width:500px;
+            height:130px;
+            background-color:grey;
+            float:right;
+            color:white;
+            text-align:center;
+            font-size:30px;
+            line-height:130px;
+        }
+    </style>
+    <script>
+        var images=["slider1.jpg","slider2.jpg","slider3.jpg","slider4.jpeg"];
+        var i=0;
+        baseUrl="{% static 'images/' %}";
+        function moveslider()
+        {
+            if(i==images.length)
+            {
+                i=0;
+            }
+            document.getElementById("slide").src=baseUrl+images[i];
+            i++;
+            window.setTimeout("moveslider()",2000);
+        }
+    </script>
+</head>
+<body bgcolor="blue">
+    <div id="outer">
+        <div id="header">
+            <div id="logo">
+                <img src="{% static 'images/logo.png' %}" width="150" height="150"/>
+            </div>
+            <div id="banner">
+                Speedex Courier Service
+            </div>
+        </div>
+        <div id="menu">
+            <ul>
+                <li><a href="{% url 'adminzone:adminhome' %}">Admin Home</a></li>
+                <li><a href="{% url 'adminzone:enquiries' %}">Enquiries</a></li>
+                <li><a href="{% url 'adminzone:complains'%}">Complains</a></li>
+                <li><a href="{% url 'adminzone:consignment' %}">Consignment</a></li>
+                <li><a href="{% url 'adminzone:jobseekers' %}">Job Seekers</a></li>
+                <li><a href="{% url 'adminzone:logout' %}">Logout</a></li>
+            </ul>
+        </div>
+        <div id="parent">
+            <h2 style="text-align:center;color:blue;">
+                Job Seeker Details
+            </h2>
+            <table border="1" style="width:90%;margin:0 auto;">
+                <tr>
+                    <th>Name</th>
+                    <th>Gender</th>
+                    <th>Address</th>
+                    <th>Contact No</th>
+                    <th>Email Address</th>
+                    <th>Qualification</th>
+                    <th>Experience</th>
+                    <th>Key Skills</th>
+                    <th>Connect Date</th>
+                    <th>Delete</th>
+                </tr>
+                {% for c in car %}
+                    <tr>
+                        <td>{{c.name}}</td>
+                        <td>{{c.gender}}</td>
+                        <td>{{c.address}}</td>
+                        <td>{{c.contactno}}</td>
+                        <td>{{c.emailaddress}}</td>
+                        <td>{{c.qualification}}</td>
+                        <td>{{c.experience}}</td>
+                        <td>{{c.keyskills}}</td>
+                        <td>{{c.connectdate}}</td>
+                        <td>
+                            <a href="{% url 'adminzone:deletejobseekers' emailaddress=c.emailaddress %}">Delete</a>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </table>
+        </div>
+        <div id="footer">
+            <div id="lfooter">
+                Copyright &copy; to Speedex Courier
+            </div>
+            <div id="rfooter">
+                Developed By : Ashutosh Singh
+            </div>
+        </div>
+    </div>
+</body>
+</html>
